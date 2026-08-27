@@ -33,6 +33,8 @@ def main():
     ancho_etiqueta = max(len(etiqueta) for etiqueta in datos)
     ancho_monto = max(len(str(monto)) for monto in datos.values())
     for etiqueta, monto in datos.items():
+        if etiqueta == "Total":
+            print()
         print(f"{etiqueta:<{ancho_etiqueta}}  {monto:>{ancho_monto}}")
 
 
