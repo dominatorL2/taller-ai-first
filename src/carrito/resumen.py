@@ -1,8 +1,8 @@
 """El resumen del pedido, desglosado."""
 
-from carrito.descuentos import PROMOCIONES, total_con_descuentos
+from carrito.descuentos import detalle_descuentos, total_con_descuentos
 from carrito.envio import costo_envio
-from carrito.impuestos import iva
+from carrito.impuestos import IVA, iva
 from carrito.precios import subtotal
 
 
@@ -11,6 +11,12 @@ ETIQUETAS = {
     "volumen": "Descuento por volumen",
     "primera-compra": "Primera compra",
 }
+
+
+def etiqueta_descuento(tipo: str, identificador: str) -> str:
+    if tipo == "promocion":
+        return ETIQUETAS.get(identificador, identificador)
+    return f"Cupón {identificador}"
 
 
 def resumen(pedido) -> dict[str, int]:
@@ -22,8 +28,10 @@ def resumen(pedido) -> dict[str, int]:
 
     lineas = {"Subtotal": base}
     if descontado != base:
+        for tipo, identificador, importe in detalle_descuentos(pedido):
+            lineas[etiqueta_descuento(tipo, identificador)] = -importe
         lineas["Descuentos"] = descontado - base
-    lineas["IVA"] = impuesto
+    lineas[f"IVA ({IVA}%)"] = impuesto
     lineas["Envío"] = envio
     lineas["Total"] = descontado + impuesto + envio
     return lineas

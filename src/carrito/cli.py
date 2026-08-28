@@ -36,6 +36,8 @@ def main():
         if etiqueta == "Total":
             print()
         print(f"{etiqueta:<{ancho_etiqueta}}  {monto:>{ancho_monto}}")
+        if etiqueta in ("Subtotal", "Descuentos"):
+            print()
 
 
 if __name__ == "__main__":
