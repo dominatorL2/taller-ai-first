@@ -51,11 +51,32 @@ def descuento_promociones(pedido, monto: int) -> int:
     return sum(PROMOCIONES[nombre](pedido, monto) for nombre in pedido.promociones)
 
 
-def total_con_descuentos(pedido) -> int:
+def detalle_descuentos(pedido) -> list[tuple[str, str, int]]:
+    """Cada descuento aplicado, en el orden en que se aplica.
+
+    Cada elemento es `(tipo, identificador, importe)`, donde `tipo` es
+    `"promocion"` o `"cupon"` e `identificador` es el nombre de la promoción
+    o el código del cupón.
+    """
     monto = subtotal(pedido)
-    monto -= descuento_promociones(pedido, monto)
+    detalle = []
+    for nombre in pedido.promociones:
+        importe = PROMOCIONES[nombre](pedido, monto)
+        if importe:
+            detalle.append(("promocion", nombre, importe))
+    monto -= sum(importe for _, _, importe in detalle)
+
     fijos = [c for c in pedido.cupones if c.tipo == "monto"]
     porcentuales = [c for c in pedido.cupones if c.tipo == "porcentaje"]
     for cupon in porcentuales + fijos:
-        monto = aplicar_cupon(monto, cupon)
+        nuevo_monto = aplicar_cupon(monto, cupon)
+        importe = monto - nuevo_monto
+        if importe:
+            detalle.append(("cupon", cupon.codigo, importe))
+        monto = nuevo_monto
+    return detalle
+
+
+def total_con_descuentos(pedido) -> int:
+    monto = subtotal(pedido) - sum(importe for _, _, importe in detalle_descuentos(pedido))
     return max(0, monto)
