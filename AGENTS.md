@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 Este archivo le da contexto a Claude Code (claude.ai/code) para trabajar en este repositorio.
 
