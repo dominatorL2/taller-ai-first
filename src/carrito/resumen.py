@@ -5,7 +5,6 @@ from carrito.envio import costo_envio
 from carrito.impuestos import IVA, iva
 from carrito.precios import subtotal
 
-
 ETIQUETAS = {
     "2x1": "Promoción 2x1",
     "volumen": "Descuento por volumen",
