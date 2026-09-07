@@ -51,8 +51,9 @@ uno con una sola responsabilidad; `resumen.py` es el que los orquesta:
   descontado.
 - `envio.py` — costo por región (`TRAMOS`), gratis sobre `UMBRAL_ENVIO_GRATIS`
   ($50.000) y gratis siempre para clientes nuevos (`cliente_nuevo`),
-  independiente del monto. Se calcula sobre el monto **después** de
-  descuentos, no sobre el subtotal.
+  independiente del monto. Se calcula sobre el subtotal más el IVA, **antes**
+  de aplicar cupones y promociones: los descuentos no cambian si el envío es
+  gratis.
 - `resumen.py` — arma el dict ordenado que se muestra/exporta: Subtotal →
   detalle de descuentos → Descuentos → IVA → Envío → Total.
 - `cli.py` / `__main__.py` — parseo de argumentos y formato de salida por
