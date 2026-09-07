@@ -2,9 +2,8 @@
 
 from carrito.descuentos import detalle_descuentos, total_con_descuentos
 from carrito.envio import costo_envio
-from carrito.impuestos import IVA, iva
+from carrito.impuestos import IVA, con_iva, iva
 from carrito.precios import subtotal
-
 
 ETIQUETAS = {
     "2x1": "Promoción 2x1",
@@ -24,7 +23,8 @@ def resumen(pedido) -> dict[str, int]:
     base = subtotal(pedido)
     descontado = total_con_descuentos(pedido)
     impuesto = iva(descontado)
-    envio = costo_envio(pedido, descontado)
+    shipping_threshold_amount = con_iva(base)
+    envio = costo_envio(pedido, shipping_threshold_amount)
 
     lineas = {"Subtotal": base}
     if descontado != base:
