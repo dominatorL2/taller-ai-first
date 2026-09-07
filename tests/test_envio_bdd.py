@@ -1,11 +1,7 @@
 """Step definitions para tests/features/envio.feature.
 
-Estos tests corren contra el código actual de `carrito`, sin modificarlo.
-El feature describe el comportamiento *objetivo* de la regla (el umbral se
-evalúa sobre subtotal + IVA, antes de descuentos), pero
-`carrito.resumen`/`carrito.envio` hoy evalúan el umbral sobre el monto ya
-descontado y sin IVA. Por eso se espera que varios escenarios fallen: eso es
-lo que se quiere ver antes de tocar la implementación.
+Verifican la regla de envío gratis: el umbral de $50.000 se evalúa sobre
+subtotal + IVA, calculados antes de aplicar cupones y promociones.
 """
 
 from pytest_bdd import given, parsers, scenarios, then, when

@@ -10,12 +10,6 @@
 #   4. Con $50.000 justos (en el monto sujeto al umbral) el envío es gratis: la comparación
 #      es "mayor o igual", no "estrictamente mayor".
 #
-# Aviso: el código actual (src/carrito/envio.py) evalúa el umbral sobre el monto YA
-# descontado y SIN sumar el IVA — lo opuesto a las decisiones 1 y 2 de arriba. Este
-# archivo describe el comportamiento objetivo de la regla, no el actual; implementarlo
-# requiere cambiar `resumen.py`/`envio.py` para pasarle a `costo_envio` el monto
-# subtotal + IVA (antes de descuentos) en lugar del monto post-descuento.
-#
 # Fórmulas usadas en los montos de los escenarios:
 #   - IVA: carrito.impuestos.iva(monto) = redondear(monto * 19 / 100), con
 #     carrito.dinero.redondear: al peso más cercano, medio peso hacia arriba.
